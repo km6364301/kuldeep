@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Video Generator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>AI Video Generator</h1>
+      <button id="themeToggle" class="secondary">🌙 Dark</button>
+    </header>
+
+    <main class="layout">
+      <section class="panel controls">
+        <h2>Create Video</h2>
+
+        <label>Prompt
+          <textarea id="prompt" rows="4" placeholder="Describe your scene..."></textarea>
+        </label>
+
+        <div class="grid two">
+          <label>Duration
+            <select id="duration">
+              <option>5s</option>
+              <option>8s</option>
+              <option>10s</option>
+              <option>15s</option>
+              <option>30s</option>
+              <option>1m</option>
+              <option>2m</option>
+              <option>5m</option>
+              <option>1h</option>
+            </select>
+          </label>
+          <label>Resolution
+            <select id="resolution">
+              <option>720p</option>
+              <option selected>1080p</option>
+              <option>4K</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid three">
+          <label>FPS
+            <select id="fps">
+              <option>24</option>
+              <option selected>30</option>
+              <option>60</option>
+            </select>
+          </label>
+          <label>Aspect Ratio
+            <select id="aspectRatio">
+              <option>16:9</option>
+              <option>9:16</option>
+              <option>1:1</option>
+            </select>
+          </label>
+          <label>Style
+            <select id="videoStyle">
+              <option>Cinematic</option>
+              <option>Anime</option>
+              <option>Realistic</option>
+              <option>Cartoon</option>
+              <option>Horror</option>
+              <option>Fantasy</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid two">
+          <label>Color Style
+            <select id="colorStyle">
+              <option>Natural</option>
+              <option>HDR</option>
+              <option>Vintage</option>
+              <option>Neon</option>
+            </select>
+          </label>
+          <label>AI Creativity
+            <select id="creativity">
+              <option>Low</option>
+              <option selected>Medium</option>
+              <option>High</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid two">
+          <label>Camera Movement
+            <select id="cameraMovement">
+              <option>Static</option>
+              <option>Pan</option>
+              <option>Zoom</option>
+              <option>Drone</option>
+            </select>
+          </label>
+          <label>Lighting
+            <select id="lighting">
+              <option>Day</option>
+              <option>Night</option>
+              <option>Sunset</option>
+              <option>Studio</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Motion Strength <span id="motionStrengthValue">50</span>
+          <input id="motionStrength" type="range" min="0" max="100" value="50" />
+        </label>
+
+        <fieldset>
+          <legend>Audio Language Controls</legend>
+          <div class="grid two">
+            <label>Voice Language
+              <select id="voiceLanguage">
+                <option>English</option>
+                <option>Hindi</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+                <option>Japanese</option>
+                <option>Korean</option>
+                <option>Chinese</option>
+                <option>Arabic</option>
+              </select>
+            </label>
+            <label>Voice Type
+              <select id="voiceType">
+                <option>Male Voice</option>
+                <option>Female Voice</option>
+                <option>AI Narrator</option>
+                <option>Cartoon Voice</option>
+              </select>
+            </label>
+          </div>
+          <div class="grid three">
+            <label>Voice Style
+              <select id="voiceStyle">
+                <option>Normal</option>
+                <option>Emotional</option>
+                <option>Storytelling</option>
+                <option>News Style</option>
+                <option>Cinematic</option>
+              </select>
+            </label>
+            <label>Speech Speed
+              <select id="speechSpeed">
+                <option>0.5x</option>
+                <option selected>1x</option>
+                <option>1.25x</option>
+                <option>1.5x</option>
+              </select>
+            </label>
+            <label>Subtitle Language
+              <select id="subtitleLanguage">
+                <option>Same as Audio</option>
+                <option>Auto Translate</option>
+                <option>Manual Select</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Audio & Export</legend>
+          <div class="toggles">
+            <label><input id="bgMusic" type="checkbox" checked /> Background Music</label>
+            <label><input id="voiceNarration" type="checkbox" checked /> Auto Voice Narration</label>
+            <label><input id="subtitleGenerator" type="checkbox" checked /> Subtitle Generator</label>
+            <label><input id="noiseReduction" type="checkbox" /> Noise Reduction</label>
+          </div>
+          <div class="grid two">
+            <label>Format
+              <select id="format">
+                <option>MP4</option>
+                <option>MOV</option>
+              </select>
+            </label>
+            <label>Quality
+              <select id="quality">
+                <option>Standard</option>
+                <option selected>HD</option>
+                <option>Ultra HD</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <label>Upload image for animation
+          <input id="imageUpload" type="file" accept="image/*" />
+        </label>
+
+        <button id="generateBtn" class="primary">Generate Video</button>
+      </section>
+
+      <section class="panel preview">
+        <h2>Preview</h2>
+        <div id="progressWrap" class="progress-wrap hidden">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <p id="status">Ready to generate.</p>
+
+        <video id="videoPlayer" controls class="hidden"></video>
+
+        <div class="actions">
+          <a id="downloadBtn" class="secondary hidden" download="ai-video.mp4">Download</a>
+          <button id="shareBtn" class="secondary hidden">Share</button>
+        </div>
+
+        <h3>History</h3>
+        <ul id="historyList" class="history"></ul>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
